@@ -9,7 +9,7 @@ import {
   generarOrdenDespacho,
   generarReporteVentasPorFecha,
   obtenerOrdenesPorFecha
-} from '../controlador/ordenesController.js';
+} from '../controllers/ordenes.controller.js';
 
 const router = express.Router();
 
