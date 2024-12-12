@@ -38,12 +38,29 @@ const CarritoPage = () => {
     );
   };
 
-  const confirmarCompra = () => {
-    const total = calcularPrecioTotal().toFixed(2);
-    alert(`Compra confirmada. Total: $${total}`);
-    localStorage.removeItem("carrito");
-    setCarrito([]);
+  const generarOrden = async () => {
+    const orden = {
+      productos: carrito,
+      total: calcularPrecioTotal(),
+    };
+  
+    try {
+      const response = await fetch('/api/ordenes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orden),
+      });
+  
+      if (!response.ok) throw new Error('Error al generar la orden');
+      alert('Orden generada exitosamente.');
+      localStorage.removeItem('carrito');
+      setCarrito([]);
+    } catch (error) {
+      console.error(error);
+      alert('Hubo un problema al generar la orden.');
+    }
   };
+  
 
   return (
     <div className="carrito-container">
@@ -93,9 +110,10 @@ const CarritoPage = () => {
           </div>
 
           <div className="ir-a-pagar">
-            <button className="btn-pagar" onClick={confirmarCompra}>
-              Ir a Pagar
-            </button>
+          <button className="btn-pagar" onClick={generarOrden}>
+            Ir a Pagar
+          </button>
+
           </div>
         </>
       )}

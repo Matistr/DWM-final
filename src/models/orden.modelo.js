@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 
-// esquema para los productos
+// Esquema para los productos
 const productoSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   precio: { type: Number, required: true },
   cantidad: { type: Number, required: true },
 });
 
+// Esquema para las órdenes
 const ordenSchema = new mongoose.Schema({
   productos: [productoSchema],
   fechaVenta: { type: Date, default: Date.now },
@@ -30,6 +31,7 @@ ordenSchema.pre('save', function (next) {
   next();
 });
 
+// Crear el modelo para las órdenes
 const Orden = mongoose.model('Orden', ordenSchema);
 
 export default Orden;
